@@ -60,6 +60,9 @@ function authorizeRequest()
 
 
 include("auth.php");
+include("categories.php");
+include("schedule.php");
+include("schedule-entry.php");
 
 
 
