@@ -74,11 +74,12 @@ switch (true) {
             // AND tarih IN($gelen_data->dates)
 
             if ($isSchedule) {
-                $data = ["scheduleEntry" => $isSchedule];
+                $data = ["scheduleEntry" => $isSchedule, "entry" => 3];
                 $response = data(True, 'Ders soruları alındı', $data);
                 print_r(json_encode($response));
             } else {
-                $response = successresponse(False, 'Ders soruları alma işlemi  başarısız');
+                $data = ["entry" => 2];
+                $response = data(True, 'Ders soruları alındı', $data);
                 print_r(json_encode($response));
             }
         } else {

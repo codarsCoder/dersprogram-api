@@ -35,16 +35,17 @@ switch (true) {
         if ($hesap["user_id"]) { //eski token varsa silelim
             $vt->Delete("DELETE FROM session WHERE user_id=?", array($hesap["user_id"]));
             $session = $vt->Insert(
-                "INSERT INTO session  SET   user_id=? ,token=?, token_bitis=?, ip=?",
+                "INSERT INTO session  SET   user_id=? ,token=?, token_bitis=?, ip=?, statu=?",
                 array(
-                    htmlGizle($hesap["user_id"]),
+                    $hesap["user_id"],
                     $token,
                     time() + 7200,
-                    $ip_address
+                    $ip_address,
+                    $hesap["statu"]
                 )
             );
             if ($session) { //yeni token ekleyelim
-                $data = ["Token" => $token, "email" => $gelen_data->email, "adi" => $hesap["adi"]];
+                $data = ["Token" => $token, "email" => $gelen_data->email, "adi" => $hesap["adi"], "statu" => $hesap["statu"]];
                 $response = data(True, 'Kullanıcı giriş işlemi başarılı', $data);
                 print_r(json_encode($response));
             } else {
@@ -106,7 +107,7 @@ switch (true) {
         $id = authorizeRequest();
         if ($id) {
             $isEntry = $vt->getRow("SELECT * FROM user where user_id=? AND parola=? ", array($id,sifrele(htmlGizle($gelen_data->parola))));
-            if ($isEntry) {
+            if ($isEntry && $isEntry["statu"] != 2) {
                 $scheduleEntry = $vt->Update(
                     "UPDATE user  SET  parola=? WHERE user_id=?",
                     array(
