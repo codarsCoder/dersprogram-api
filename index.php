@@ -9,7 +9,6 @@ header("Access-Control-Allow-Credentials: true");
 header('Access-Control-Allow-Headers: X-gelen_dataed-With');
 header('Access-Control-Allow-Headers: Content-Type, Authorization');
 header('Access-Control-Allow-Methods: POST, GET, OPTIONS, DELETE, PUT');
-
 $vt = new Database();
 
 $gelen_json = file_get_contents("php://input"); //gelen query nin bosy kısmını okuduk
